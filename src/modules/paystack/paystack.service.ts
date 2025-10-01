@@ -21,7 +21,7 @@ export class PaystackService implements PaymentGateway {
   constructor(private readonly configService: ConfigService) {
     this.secretKey = this.configService.get<string>('PAYSTACK_SECRET_KEY') || '';
     this.publicKey = this.configService.get<string>('PAYSTACK_PUBLIC_KEY') || '';
-    this.webhookSecret = this.configService.get<string>('PAYSTACK_WEBHOOK_SECRET') || '';
+    this.webhookSecret = this.configService.get<string>('PAYSTACK_SECRET_KEY') || '';
 
     if (!this.secretKey || !this.publicKey) {
       this.logger.error('Paystack credentials not configured properly');
