@@ -115,28 +115,25 @@ async function bootstrap() {
   const port = configService.get('APP_PORT') || 3000;
   await app.listen(port, '0.0.0.0');
   
-  logger.log(`Server started successfully and is listening at: http://localhost:${port}`);
-  logger.log(`Running in ${configService.get('NODE_ENV', 'development')} environment`);
+  logger.log(`🚀 Application is running on: http://localhost:${port}`);
+  logger.log(`🌍 Environment: ${configService.get('NODE_ENV', 'development')}`);
   
   if (isDevelopment) {
-    logger.log(`Developer documentation is available at: http://localhost:${port}/api/docs`);
+    logger.log(`📖 API Documentation: http://localhost:${port}/api/docs`);
   }
   
-  const paystackStatus = configService.get('PAYSTACK_SECRET_KEY') ? 'Ready to process payments' : 'Payment processing unavailable - Missing configuration';
-  const sqsStatus = configService.get('AWS_SQS_QUEUE_URL') ? 'Event processing enabled' : 'Event processing disabled - Missing configuration';
+  logger.log(`💳 Paystack Integration: ${configService.get('PAYSTACK_SECRET_KEY') ? 'Configured' : 'Not Configured'}`);
+  logger.log(`🔗 SQS Queue: ${configService.get('AWS_SQS_QUEUE_URL') ? 'Configured' : 'Not Configured'}`);
   
-  logger.log(`Payment Gateway Status: ${paystackStatus}`);
-  logger.log(`Message Queue Status: ${sqsStatus}`);
-  
-  // Handle application shutdown gracefully
+  // Graceful shutdown
   process.on('SIGTERM', async () => {
-    logger.log('Shutdown signal received. Closing application gracefully to ensure all transactions are completed.');
+    logger.log('SIGTERM received, shutting down gracefully');
     await app.close();
     process.exit(0);
   });
 }
 
 bootstrap().catch((error) => {
-  console.error('Unable to start the application. Please check your configuration and try again.', error);
+  console.error('Failed to start application:', error);
   process.exit(1);
 });

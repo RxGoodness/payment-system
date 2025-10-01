@@ -14,11 +14,7 @@ export class PaymentMethodController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new payment method' })
-  @ApiResponse({
-    status: 201,
-    description: 'The payment method has been successfully created.',
-    type: PaymentMethod
-  })
+  @ApiResponse({ status: 201, description: 'The payment method has been successfully created.' })
   async create(
     @Request() req,
     @Body() createPaymentMethodDto: CreatePaymentMethodDto
@@ -28,22 +24,14 @@ export class PaymentMethodController {
 
   @Get()
   @ApiOperation({ summary: 'Get all payment methods for the authenticated merchant' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of payment methods',
-    type: [PaymentMethod]
-  })
+  @ApiResponse({ status: 200, description: 'List of payment methods' })
   async findAll(@Request() req): Promise<PaymentMethod[]> {
     return await this.paymentMethodService.findAll(req.user.id);
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a specific payment method' })
-  @ApiResponse({
-    status: 200,
-    description: 'The payment method details',
-    type: PaymentMethod
-  })
+  @ApiResponse({ status: 200, description: 'The payment method details' })
   @ApiResponse({ status: 404, description: 'Payment method not found' })
   async findOne(@Request() req, @Param('id') id: string): Promise<PaymentMethod> {
     return await this.paymentMethodService.findOne(id, req.user.id);
@@ -51,11 +39,7 @@ export class PaymentMethodController {
 
   @Put(':id')
   @ApiOperation({ summary: 'Update a payment method' })
-  @ApiResponse({
-    status: 200,
-    description: 'The payment method has been successfully updated.',
-    type: PaymentMethod
-  })
+  @ApiResponse({ status: 200, description: 'The payment method has been successfully updated.' })
   @ApiResponse({ status: 404, description: 'Payment method not found' })
   async update(
     @Request() req,
