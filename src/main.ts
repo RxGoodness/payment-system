@@ -57,29 +57,21 @@ async function bootstrap() {
     const config = new DocumentBuilder()
       .setTitle('Payment Processing System API')
       .setDescription(`
-        Welcome to our Payment Processing System API documentation. This guide will help you integrate payments into your application using our secure and reliable payment infrastructure.
-
-        ## What Can You Do With This API?
-        This API allows you to accept payments from your customers through various channels including cards, bank transfers, and USSD. It provides real-time payment notifications and detailed transaction reporting.
-
-        ## Key Features
-        * Accept payments securely using Paystack's trusted payment gateway
-        * Get instant notifications when payments succeed or fail
-        * Manage multiple payment methods for your business
-        * Track all your transactions in real-time
-        * Enterprise-grade security with JWT authentication
-
-        ## Quick Integration Guide
-        1. Create your merchant account (/auth/register)
-        2. Sign in to get your access token (/auth/login)
-        3. Set up your preferred payment methods
-        4. Start accepting payments from your customers
-        5. Receive real-time updates via webhooks
-
-        ## Need Help?
-        * All endpoints are documented with example requests and responses
-        * Each error response includes clear instructions on how to resolve it
-        * Test your integration using our development environment
+        A comprehensive payment processing system with Paystack integration and AWS SQS event handling.
+        
+        ## Features
+        - Secure merchant authentication with JWT
+        - Paystack payment gateway integration
+        - Real-time payment event processing with AWS SQS
+        - Comprehensive payment method management
+        - Production-ready security and monitoring
+        
+        ## Getting Started
+        1. Register as a merchant using the /auth/register endpoint
+        2. Login to receive your JWT token
+        3. Create payment methods for your business
+        4. Initialize payments for your customers
+        5. Monitor payment events through webhooks and SQS
       `)
       .setVersion('1.0.0')
       .addBearerAuth({
@@ -115,28 +107,25 @@ async function bootstrap() {
   const port = configService.get('APP_PORT') || 3000;
   await app.listen(port, '0.0.0.0');
   
-  logger.log(`Server started successfully and is listening at: http://localhost:${port}`);
-  logger.log(`Running in ${configService.get('NODE_ENV', 'development')} environment`);
+  logger.log(`🚀 Application is running on: http://localhost:${port}`);
+  logger.log(`🌍 Environment: ${configService.get('NODE_ENV', 'development')}`);
   
   if (isDevelopment) {
-    logger.log(`Developer documentation is available at: http://localhost:${port}/api/docs`);
+    logger.log(`📖 API Documentation: http://localhost:${port}/api/docs`);
   }
   
-  const paystackStatus = configService.get('PAYSTACK_SECRET_KEY') ? 'Ready to process payments' : 'Payment processing unavailable - Missing configuration';
-  const sqsStatus = configService.get('AWS_SQS_QUEUE_URL') ? 'Event processing enabled' : 'Event processing disabled - Missing configuration';
+  logger.log(`💳 Paystack Integration: ${configService.get('PAYSTACK_SECRET_KEY') ? 'Configured' : 'Not Configured'}`);
+  logger.log(`🔗 SQS Queue: ${configService.get('AWS_SQS_QUEUE_URL') ? 'Configured' : 'Not Configured'}`);
   
-  logger.log(`Payment Gateway Status: ${paystackStatus}`);
-  logger.log(`Message Queue Status: ${sqsStatus}`);
-  
-  // Handle application shutdown gracefully
+  // Graceful shutdown
   process.on('SIGTERM', async () => {
-    logger.log('Shutdown signal received. Closing application gracefully to ensure all transactions are completed.');
+    logger.log('SIGTERM received, shutting down gracefully');
     await app.close();
     process.exit(0);
   });
 }
 
 bootstrap().catch((error) => {
-  console.error('Unable to start the application. Please check your configuration and try again.', error);
+  console.error('Failed to start application:', error);
   process.exit(1);
 });
