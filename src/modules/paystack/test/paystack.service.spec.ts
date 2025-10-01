@@ -1,8 +1,15 @@
-
 import { Test, TestingModule } from '@nestjs/testing';
 import { PaystackService } from '../paystack.service';
 import { ConfigService } from '@nestjs/config';
 import * as crypto from 'crypto';
+import { Logger } from '@nestjs/common';
+
+beforeAll(() => {
+  jest.spyOn(Logger.prototype, 'error').mockImplementation(() => {});
+  jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => {});
+  jest.spyOn(console, 'error').mockImplementation(() => {});
+  jest.spyOn(console, 'warn').mockImplementation(() => {});
+});
 
 jest.mock('https', () => {
   return {
@@ -20,9 +27,8 @@ describe('PaystackService', () => {
   beforeEach(async () => {
     configService = {
       get: jest.fn((key: string) => {
-        if (key === 'PAYSTACK_SECRET_KEY') return 'sk_test';
+        if (key === 'PAYSTACK_SECRET_KEY') return 'whsec_test';
         if (key === 'PAYSTACK_PUBLIC_KEY') return 'pk_test';
-        if (key === 'PAYSTACK_WEBHOOK_SECRET') return 'whsec_test';
         return undefined;
       }),
     };
@@ -90,7 +96,7 @@ describe('PaystackService', () => {
       };
       const result = await service.initializePayment(data);
       expect(result.status).toBe(true);
-      expect(result.data.authorization_url).toBe('url');
+      expect((result as any).data.authorization_url).toBe('url');
     });
 
     it('should throw BadRequestException on failed response', async () => {
@@ -201,11 +207,12 @@ describe('PaystackService', () => {
   describe('processWebhook', () => {
     it('should return isValid true for valid signature', async () => {
       const payload = { event: 'charge.success', data: { foo: 'bar' } };
+      const rawBodyStr = JSON.stringify(payload);
       const signature = crypto
         .createHmac('sha512', 'whsec_test')
-        .update(JSON.stringify(payload))
+        .update(rawBodyStr)
         .digest('hex');
-      const result = await service.processWebhook(payload, signature);
+      const result = await service.processWebhook(payload, signature, rawBodyStr);
       expect(result.isValid).toBe(true);
       expect(result.event).toBe('charge.success');
       expect(result.data).toEqual({ foo: 'bar' });
@@ -222,7 +229,7 @@ describe('PaystackService', () => {
 
     it('should handle error in processWebhook', async () => {
       // Force error by making webhookSecret undefined
-      service['webhookSecret'] = undefined as any;
+      (service as any)['webhookSecret'] = undefined as any;
       const payload = { event: 'charge.success', data: { foo: 'bar' } };
       const result = await service.processWebhook(payload, 'sig');
       expect(result.isValid).toBe(false);

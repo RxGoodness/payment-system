@@ -56,7 +56,10 @@ describe('AuthService', () => {
   });
 
   it('should register a user', async () => {
+    merchantRepo.findOne.mockResolvedValue(null); // No existing merchant
+    merchantRepo.create.mockImplementation((data) => ({ ...data, id: 1 }));
     merchantRepo.save.mockResolvedValue({ id: 1, email: 'test@test.com', merchantCode: 'ACME001' });
+    jest.spyOn(require('bcryptjs'), 'hash').mockResolvedValue('hashed');
     const result = await service.register({ email: 'test@test.com', password: 'Password123!', name: 'Test', merchantCode: 'ACME001' });
     expect(result.merchant).toHaveProperty('email', 'test@test.com');
     expect(result.merchant).toHaveProperty('merchantCode', 'ACME001');
