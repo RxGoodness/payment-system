@@ -1,8 +1,10 @@
-# Payment Processing System 🚀
+A **production-ready** payment processing system built with **NestJS**, **TypeScript**, **PostgreSQL**, **Paystack**, and **AWS SQS** integration. This system follows **enterprise-grade** architecture patterns and provides secure payment processing with real-time event handling, comprehensive monitoring, and scalable design.
+
+# Payment Processing System
 
 A **production-ready** payment processing system built with **NestJS**, **TypeScript**, **PostgreSQL**, **Paystack**, and **AWS SQS** integration. This system follows **enterprise-grade** architecture patterns and provides secure payment processing with real-time event handling, comprehensive monitoring, and scalable design.
 
-## 🎯 Built for Nigeria & African Markets
+## Built for Nigeria & African Markets
 
 This system is specifically designed for the Nigerian market using **Paystack** as the primary payment gateway, supporting:
 - NGN, USD, GHS, ZAR, KES currencies
@@ -10,22 +12,22 @@ This system is specifically designed for the Nigerian market using **Paystack** 
 - Mobile money, USSD, QR codes
 - Bank transfers and card payments
 
-## ✨ Production Features
+## Production Features
 
-### 🏗️ Architecture & Design
+### Architecture & Design
 - **Modular NestJS Architecture**: Clean separation of concerns with feature modules
 - **Domain-Driven Design**: Business logic organized around payment domain
 - **SOLID Principles**: Maintainable and extensible codebase
 - **Dependency Injection**: Testable and loosely coupled components
 
-### 💳 Payment Processing
+### Payment Processing
 - **Paystack Integration**: Native Nigerian payment gateway support
 - **Multiple Payment Methods**: Cards, bank transfers, USSD, mobile money
 - **Real-time Status Updates**: Instant payment status notifications
 - **Secure Transaction Handling**: PCI-compliant payment processing
 - **Multi-currency Support**: NGN, USD, GHS, ZAR, KES
 
-### 🔒 Security & Compliance
+### Security & Compliance
 - **JWT Authentication**: Secure token-based authentication
 - **Rate Limiting**: DDoS protection and API abuse prevention
 - **Input Validation**: Comprehensive request validation
@@ -33,13 +35,13 @@ This system is specifically designed for the Nigerian market using **Paystack** 
 - **Helmet Security**: Security headers and CORS configuration
 - **Environment-based Configuration**: Secure secrets management
 
-### 📊 Monitoring & Observability
+### Monitoring & Observability
 - **Health Checks**: Kubernetes-ready liveness and readiness probes
 - **Structured Logging**: Comprehensive application logging
 - **Performance Metrics**: Memory, disk, and database monitoring
 - **Error Tracking**: Detailed error reporting and stack traces
 
-### 🌐 Production Ready
+### Production Ready
 - **Docker Containerization**: Multi-stage optimized builds
 - **Docker Compose**: Full-stack deployment configuration
 - **Nginx Reverse Proxy**: Load balancing and SSL termination
@@ -47,14 +49,14 @@ This system is specifically designed for the Nigerian market using **Paystack** 
 - **Automated Deployment**: Production deployment scripts
 - **Zero-downtime Deployments**: Rolling update strategies
 
-## 🏗️ System Architecture
+## System Architecture
 
-### 📋 Database Schema
+### Database Schema
 - **Merchants**: Business account management with authentication
 - **PaymentMethods**: Secure payment method storage and management
 - **Payments**: Complete payment lifecycle with audit trails
 
-### 🔄 Event-Driven Flow
+### Event-Driven Flow
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Merchant      │    │   Payment       │    │   Paystack      │
@@ -104,7 +106,7 @@ This system is specifically designed for the Nigerian market using **Paystack** 
 - AWS Account (for SQS)
 - npm or yarn
 
-## 🛠️ Installation
+## Installation
 
 1. **Clone the repository**
 ```bash
@@ -163,7 +165,7 @@ Create an SQS queue in your AWS account:
 - Configure appropriate permissions
 - Update `AWS_SQS_QUEUE_URL` in your `.env` file
 
-## 🚀 Running the Application
+## Running the Application
 
 ### Development Mode
 ```bash
@@ -180,7 +182,7 @@ The application will be available at:
 - API: `http://localhost:3000`
 - Documentation: `http://localhost:3000/api/docs`
 
-## 📖 API Documentation
+## API Documentation
 
 ### Authentication Endpoints
 
@@ -289,7 +291,7 @@ All endpoints return responses in the following format:
 }
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Run Unit Tests
 ```bash
@@ -314,7 +316,7 @@ DATABASE_NAME=payment_system_test
 # ... other test configurations
 ```
 
-## 🔒 Security Features
+## Security Features
 
 - **JWT Authentication**: Secure token-based authentication
 - **Input Validation**: Comprehensive request validation using class-validator
@@ -323,7 +325,7 @@ DATABASE_NAME=payment_system_test
 - **Environment Variables**: Secure configuration management
 - **SQL Injection Protection**: TypeORM query builder protection
 
-## 📊 SQS Event Processing
+## SQS Event Processing
 
 The system publishes events to AWS SQS for the following scenarios:
 
@@ -350,7 +352,7 @@ The system publishes events to AWS SQS for the following scenarios:
 }
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -371,9 +373,9 @@ The system publishes events to AWS SQS for the following scenarios:
 | `NODE_ENV` | Environment mode | No (default: development) |
 | `WEBHOOK_SECRET` | Webhook validation secret | No |
 
-## 🏭 Production Deployment
+## Production Deployment
 
-### 🚀 Quick Production Deploy
+### Quick Production Deploy
 ```bash
 # 1. Clone and setup
 git clone <repository-url>
@@ -387,7 +389,7 @@ cp .env.production .env
 ./deploy.sh full
 ```
 
-### 🐳 Docker Deployment Options
+### Docker Deployment Options
 
 #### Option 1: Single Container
 ```bash
@@ -414,7 +416,7 @@ docker-compose -f docker-compose.prod.yml logs -f
 docker-compose -f docker-compose.prod.yml up -d --scale payment-system=3
 ```
 
-### ☸️ Kubernetes Deployment
+### Kubernetes Deployment
 ```yaml
 # kubernetes/deployment.yaml
 apiVersion: apps/v1
@@ -476,7 +478,7 @@ cp your-domain.crt /path/to/ssl/
 cp your-domain.key /path/to/ssl/
 ```
 
-### 📊 Monitoring & Alerting
+### Monitoring & Alerting
 
 #### Health Monitoring
 ```bash
@@ -508,7 +510,7 @@ curl https://yourdomain.com/metrics
 }
 ```
 
-### 🔄 CI/CD Pipeline
+### CI/CD Pipeline
 ```yaml
 # .github/workflows/deploy.yml
 name: Deploy to Production
@@ -540,7 +542,7 @@ jobs:
       run: ./deploy.sh docker
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -548,11 +550,11 @@ jobs:
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## � Production Checklist
+## Production Checklist
 
 Before deploying to production, ensure:
 
-### Security ✅
+### Security
 - [ ] Strong JWT secrets (64+ characters)
 - [ ] Paystack live keys configured
 - [ ] Database SSL enabled
@@ -561,7 +563,7 @@ Before deploying to production, ensure:
 - [ ] Input validation enabled
 - [ ] HTTPS enforced
 
-### Infrastructure ✅
+### Infrastructure
 - [ ] PostgreSQL production database
 - [ ] AWS SQS queue created
 - [ ] Redis cache configured
@@ -570,7 +572,7 @@ Before deploying to production, ensure:
 - [ ] Backup strategy implemented
 - [ ] Monitoring tools configured
 
-### Performance ✅
+### Performance
 - [ ] Database indexes optimized
 - [ ] Connection pooling enabled
 - [ ] Caching strategy implemented
@@ -578,7 +580,7 @@ Before deploying to production, ensure:
 - [ ] Compression enabled
 - [ ] Memory limits set
 
-### Monitoring ✅
+### Monitoring
 - [ ] Health checks responding
 - [ ] Log aggregation setup
 - [ ] Error tracking configured
@@ -586,7 +588,7 @@ Before deploying to production, ensure:
 - [ ] Alerting rules defined
 - [ ] Dashboard created
 
-## 📈 Performance Benchmarks
+## Performance Benchmarks
 
 - **Throughput**: 1000+ requests/second
 - **Response Time**: <100ms (P95)
@@ -595,7 +597,7 @@ Before deploying to production, ensure:
 - **Memory Usage**: <300MB RSS
 - **CPU Usage**: <80% under load
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -643,7 +645,7 @@ async getMerchantProfile(merchantId: string) {
 }
 ```
 
-## 📞 Production Support
+## Production Support
 
 ### Emergency Contacts
 - **Technical Lead**: your-email@company.com
@@ -656,11 +658,11 @@ async getMerchantProfile(merchantId: string) {
 - **Monitoring**: https://grafana.yourdomain.com
 - **Logs**: https://kibana.yourdomain.com
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🏆 Production Grade
+## Production Grade
 
 This system has been built with **enterprise standards** and is ready for:
 - **High-traffic production environments** (10,000+ transactions/day)
@@ -670,11 +672,11 @@ This system has been built with **enterprise standards** and is ready for:
 - **Multi-region deployment** for high availability
 - **PCI DSS compliance** readiness
 
-**Built for Nigeria's fintech ecosystem** 🇳🇬
+**Built for Nigeria's fintech ecosystem**
 
 ---
 
-**⚡ Ready to process payments at scale with confidence!**
+**Ready to process payments at scale with confidence!**
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
@@ -743,12 +745,6 @@ Check out a few resources that may come in handy when working with NestJS:
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
