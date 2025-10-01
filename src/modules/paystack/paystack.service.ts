@@ -92,15 +92,43 @@ export class PaystackService implements PaymentGateway {
     }
   }
 
-  async processWebhook(payload: any, signature: string): Promise<WebhookProcessingResult> {
+  /**
+   * Validates Paystack webhook using improved signature logic (raw body string) and optional IP check.
+   * Accepts either (payload, signature, rawBodyStr?, requestIp?) for compatibility.
+   */
+  async processWebhook(
+    payload: any,
+    signature: string,
+    rawBodyStr?: string,
+    requestIp?: string
+  ): Promise<WebhookProcessingResult> {
     try {
-      // Verify webhook signature
-      const hash = crypto
+      // Optional: IP address validation if provided
+      if (requestIp) {
+        const trustedIps = ['52.31.139.75', '52.49.173.169', '52.214.14.220'];
+        this.logger.log('Request IP:', requestIp);
+        if (!trustedIps.includes(requestIp)) {
+          this.logger.warn('Unauthorized IP:', requestIp);
+          return {
+            isValid: false,
+            event: '',
+            data: null,
+          };
+        }
+        this.logger.log('IP check passed');
+      }
+
+      // Use rawBodyStr for signature validation if provided, else fallback to JSON.stringify(payload)
+      const bodyString = rawBodyStr || JSON.stringify(payload);
+      const computedHash = crypto
         .createHmac('sha512', this.webhookSecret)
-        .update(JSON.stringify(payload))
+        .update(bodyString)
         .digest('hex');
 
-      if (hash !== signature) {
+      this.logger.log('Computed Hash:', computedHash);
+      this.logger.log('Received Signature:', signature);
+
+      if (computedHash !== signature) {
         this.logger.warn('Invalid webhook signature');
         return {
           isValid: false,

@@ -164,12 +164,22 @@ export class PaymentService {
     }
   }
 
-  async handleWebhook(webhookPayload: WebhookPayloadDto, signature: string): Promise<any> {
-    // Process webhook with Paystack service
-    const webhookResult = await this.paystackService.processWebhook(webhookPayload, signature);
+  async handleWebhook(
+    webhookPayload: WebhookPayloadDto,
+    signature: string,
+    rawBodyStr?: string,
+    requestIp?: string
+  ): Promise<any> {
+    // Process webhook with Paystack service (now with raw body and IP validation)
+    const webhookResult = await this.paystackService.processWebhook(
+      webhookPayload,
+      signature,
+      rawBodyStr,
+      requestIp
+    );
 
     if (!webhookResult.isValid) {
-      throw new BadRequestException('Invalid webhook signature');
+      throw new BadRequestException('Invalid webhook signature or IP');
     }
 
     const { event, data } = webhookResult;

@@ -7,7 +7,8 @@ import {
   Query, 
   Headers,
   HttpCode,
-  HttpStatus 
+  HttpStatus,
+  Req
 } from '@nestjs/common';
 import { 
   ApiTags, 
@@ -112,8 +113,26 @@ export class PaymentController {
   async handleWebhook(
     @Body() webhookPayload: WebhookPayloadDto,
     @Headers('x-paystack-signature') signature: string,
+    @Headers('x-forwarded-for') xForwardedFor: string,
+    @Req() req: any,
   ) {
-    const result = await this.paymentService.handleWebhook(webhookPayload, signature);
+    // Get raw body string (requires bodyParser.raw middleware for this route)
+    let rawBodyStr = '';
+    if (req.rawBody) {
+      rawBodyStr = Buffer.isBuffer(req.rawBody) ? req.rawBody.toString('utf8') : req.rawBody;
+    } else if (req.body && typeof req.body === 'string') {
+      rawBodyStr = req.body;
+    } else {
+      // fallback: reconstruct from JSON
+      rawBodyStr = JSON.stringify(webhookPayload);
+    }
+
+    // Get request IP
+    let requestIp = xForwardedFor || req.ip || req.connection?.remoteAddress || req.socket?.remoteAddress;
+    if (Array.isArray(requestIp)) requestIp = requestIp[0];
+    if (typeof requestIp === 'string' && requestIp.includes(',')) requestIp = requestIp.split(',')[0].trim();
+
+    const result = await this.paymentService.handleWebhook(webhookPayload, signature, rawBodyStr, requestIp);
 
     return {
       success: true,
