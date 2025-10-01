@@ -11,6 +11,7 @@ import { Public } from '../common/decorators/public.decorator';
 
 @ApiTags('Health')
 @Controller('health')
+@Public()
 export class HealthController {
   constructor(
     private readonly health: HealthCheckService,
