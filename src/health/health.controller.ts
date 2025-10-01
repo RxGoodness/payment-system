@@ -46,7 +46,7 @@ export class HealthController {
 
   @Get('liveness')
   @Public()
-  @ApiOperation({ summary: 'Liveness probe for Kubernetes' })
+  @ApiOperation({ summary: 'Liveness probe for Deployment' })
   @ApiResponse({ status: 200, description: 'Application is alive' })
   liveness() {
     return {
@@ -59,7 +59,7 @@ export class HealthController {
   @Get('readiness')
   @Public()
   @HealthCheck()
-  @ApiOperation({ summary: 'Readiness probe for Kubernetes' })
+  @ApiOperation({ summary: 'Readiness probe for Deployment' })
   @ApiResponse({ status: 200, description: 'Application is ready' })
   @ApiResponse({ status: 503, description: 'Application is not ready' })
   readiness() {

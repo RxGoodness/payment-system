@@ -91,7 +91,7 @@ async function bootstrap() {
         in: 'header',
       })
       .addServer('http://localhost:3000', 'Development server')
-      .addServer('https://api.yourdomain.com', 'Production server')
+      .addServer('https://payment-system-d4sz.onrender.com', 'Production server')
       .addTag('Authentication', 'Merchant authentication and authorization')
       .addTag('Payments', 'Payment processing and management')
       .addTag('Payment Methods', 'Payment method management')
